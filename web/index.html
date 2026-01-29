@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Audio Transcription & Semantic Prediction</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎤 Real-time Audio Transcription</h1>
+            <div class="status-bar">
+                <div class="status-indicator">
+                    <span class="status-dot" id="connection-status"></span>
+                    <span id="connection-text">Connecting...</span>
+                </div>
+                <div class="status-indicator">
+                    <span class="status-dot" id="recording-status"></span>
+                    <span id="recording-text">Not Recording</span>
+                </div>
+                <div class="status-indicator">
+                    <span class="time-display" id="audio-time">00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Left Panel: Timeline & Transcript -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <h2>📝 Transcript Timeline</h2>
+                    <div class="panel-controls">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="auto-scroll" checked>
+                            Auto-scroll
+                        </label>
+                    </div>
+                </div>
+                <div class="timeline-container" id="timeline-container">
+                    <div class="timeline-content" id="timeline-content">
+                        <div class="empty-state">
+                            <p>👆 Click "Start Recording" to begin transcription</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Predictions -->
+            <div class="right-panel">
+                <!-- Keywords Section -->
+                <div class="prediction-section">
+                    <h3>🔑 Keywords</h3>
+                    <div class="keywords-container" id="keywords-container">
+                        <div class="empty-state-small">Waiting for predictions...</div>
+                    </div>
+                </div>
+
+                <!-- Next Terms Section -->
+                <div class="prediction-section">
+                    <h3>🔮 Next Terms</h3>
+                    <div class="next-terms-container" id="next-terms-container">
+                        <div class="empty-state-small">Waiting for predictions...</div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="prediction-section">
+                    <h3>📊 Summary</h3>
+                    <div class="summary-container" id="summary-container">
+                        <div class="empty-state-small">Waiting for predictions...</div>
+                    </div>
+                </div>
+
+                <!-- Metrics Section -->
+                <div class="prediction-section metrics-section">
+                    <h3>⚡ Performance</h3>
+                    <div class="metrics-grid" id="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">TTFT</span>
+                            <span class="metric-value" id="metric-ttft">--</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Speed</span>
+                            <span class="metric-value" id="metric-speed">--</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Total</span>
+                            <span class="metric-value" id="metric-total">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Bar -->
+        <div class="control-bar">
+            <button id="start-btn" class="btn btn-primary">
+                <span class="btn-icon">▶</span>
+                Start Recording
+            </button>
+            <button id="stop-btn" class="btn btn-secondary" disabled>
+                <span class="btn-icon">⏸</span>
+                Stop Recording
+            </button>
+            <button id="reset-btn" class="btn btn-warning">
+                <span class="btn-icon">🔄</span>
+                Reset
+            </button>
+            <button id="export-txt-btn" class="btn btn-success">
+                <span class="btn-icon">💾</span>
+                Export TXT
+            </button>
+            <button id="export-json-btn" class="btn btn-success">
+                <span class="btn-icon">📦</span>
+                Export JSON
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Whisper Large V3 + LFM2.5-1.2B-JP</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/timeline.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

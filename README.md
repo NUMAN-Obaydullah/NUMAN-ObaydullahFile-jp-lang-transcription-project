@@ -11,6 +11,7 @@ A complete, integrated system for real-time audio transcription using Whisper La
 - 💾 **Export Support**: Download transcripts in TXT or JSON format
 - ⚡ **High Performance**: Optimized for efficiency with sliding window approach
 - 🔄 **Auto-Reconnection**: Robust WebSocket handling with automatic reconnection
+- 📈 **Performance Benchmarking**: Compare multiple LLM models with detailed performance reports
 
 ## Architecture
 
@@ -285,11 +286,61 @@ python streaming_server.py \
 - Lower `--max-tokens`
 - Increase `--update-every-lines`
 
+## Performance Benchmarking
+
+The system includes a comprehensive benchmarking tool to compare different LLM models:
+
+### Quick Benchmark
+
+```bash
+# 1. Create models config
+cat > models_config.json << 'EOF'
+{
+  "models": [
+    {
+      "name": "LFM2.5-1.2B-JP",
+      "url": "http://127.0.0.1:8080/v1/chat/completions",
+      "model_id": "lfm2.5-jp",
+      "max_tokens": 180,
+      "temperature": 0.2
+    }
+  ]
+}
+EOF
+
+# 2. Run benchmark
+python benchmark_models.py \
+  --transcript sample_transcript.txt \
+  --models models_config.json \
+  --output benchmark_report.md
+
+# 3. View results
+cat benchmark_report.md
+```
+
+### Benchmark Metrics
+
+The benchmark measures:
+- **TTFT (Time to First Token)**: Response latency
+- **Tokens/sec**: Generation speed
+- **Total Time**: End-to-end latency
+- **Quality**: Keywords, next terms, summary evaluation
+
+### Detailed Guide
+
+See [BENCHMARKING.md](BENCHMARKING.md) for:
+- Complete benchmarking guide
+- Model configuration examples
+- Report format options (Markdown, JSON, CSV)
+- Performance optimization tips
+- Troubleshooting guide
+
 ## File Structure
 
 ```
 .
 ├── streaming_server.py          # Main integrated server
+├── benchmark_models.py          # Performance benchmarking tool
 ├── lib/
 │   ├── __init__.py              # Library package init
 │   ├── audio_utils.py           # Audio capture utilities
@@ -305,7 +356,10 @@ python streaming_server.py \
 │       └── export.js            # Export functionality
 ├── realtime_whisper_v3_to_txt.py           # Standalone transcription script
 ├── semantic_predict_from_transcription.py  # Standalone prediction script
+├── models_config.example.json   # Example model configuration
+├── sample_transcript.txt        # Sample transcript for testing
 ├── requirements.txt             # Python dependencies
+├── BENCHMARKING.md             # Performance benchmarking guide
 ├── .gitignore                   # Git exclusions
 └── README.md                    # This file
 ```
